@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Lab2_CSE422_TranGiaLong_2231200069.Models.Device>
+
+@{
+    ViewData["Title"] = "Quản lý thiết bị";
+}
+
+<div class="container mt-4">
+    <h2>Danh sách thiết bị</h2>
+
+    <!-- Form tìm kiếm và lọc dữ liệu (Yêu cầu 4) -->
+    <form asp-action="Index" method="get" class="row g-3 mb-4">
+        <div class="col-md-3">
+            <input type="text" name="searchString" value="@ViewBag.CurrentSearch" class="form-control" placeholder="Tìm theo tên hoặc mã..." />
+        </div>
+        <div class="col-md-3">
+            <select name="categoryId" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name", ViewBag.CurrentCategory))">
+                <option value="">-- Tất cả danh mục --</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="statusFilter" class="form-control">
+                <option value="">-- Tất cả trạng thái --</option>
+                <option value="In use">In use</option>
+                <option value="Broken">Broken</option>
+                <option value="Under maintenance">Under maintenance</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary">Lọc / Tìm kiếm</button>
+            <a asp-action="Index" class="btn btn-secondary">Đặt lại</a>
+        </div>
+    </form>
+
+    <p>
+        <a asp-action="Create" class="btn btn-success">Thêm thiết bị mới</a>
+    </p>
+
+    <!-- Bảng hiển thị -->
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Tên thiết bị</th>
+                <th>Mã thiết bị</th>
+                <th>Danh mục ID</th>
+                <th>Trạng thái</th>
+                <th>Ngày nhập</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Code</td>
+                    <td>@item.CategoryId</td>
+                    <td>@item.Status</td>
+                    <td>@item.DateOfEntry.ToString("yyyy-MM-dd")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
